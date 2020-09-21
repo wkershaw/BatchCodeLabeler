@@ -57,6 +57,13 @@ namespace Labeler
             }
         }
 
+        /*
+         * When create button has been clicked:
+         * Check the printer is ready,
+         * Set up a the labels properties in a LabelSetup struct
+         * Send the labels properties and data to the printer
+         * Wait a while and wait for the printer to be ready to print again
+         */
         private async void CreateButton_ClickAsync(object sender, EventArgs e)
         {
             CreateButton.Enabled = false;
@@ -102,6 +109,12 @@ namespace Labeler
 
         }
 
+
+        /*
+         * Print the provided label and wait a given amount of time
+         * (3 seconds) then wait for the printer to be ready again
+         * we wait a while to prevent accidental double clicking from the user
+         */
         private void PrintAndWait(LabelSetup l, int time = 3000)
         {
             PrintLabels(l);
@@ -109,6 +122,9 @@ namespace Labeler
             while (!PrinterIsReady());
         }
 
+        /*
+         * Print the labels using the supplied data using the zebra API
+         */
         private void PrintLabels(LabelSetup l)
         {
             //Define the label format used to layout the label
@@ -155,6 +171,9 @@ namespace Labeler
 
         }
         
+        /*
+         * Connect to a printer using the Zebra API
+         */
         private void ConnectToPrinter()
         {
             DiscoveredUsbPrinter discoveredPrinter = UsbDiscoverer.GetZebraUsbPrinters(new ZebraPrinterFilter())[0];
@@ -164,6 +183,9 @@ namespace Labeler
             ConnectionLabel.Text = "Printer Connected!";
         }
         
+        /*
+         * Check if the printer is ready
+         */
         private bool PrinterIsReady()
         {
             bool ready;
@@ -177,6 +199,9 @@ namespace Labeler
             return ready;
         }
 
+        /*
+         * Set a cancel flag to false, stopping any printing that is occuring
+         */
         private void CancelButton_Click(object sender, EventArgs e)
         {
             cancel = true;
